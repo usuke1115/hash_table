@@ -25,20 +25,22 @@ func (hashTable *HashTable) put(entry Entry) {
 	hashTable.Table[index] = append(hashTable.Table[index], entry)
 }
 
-func (hashTable *HashTable) get(key string) int {
+func (hashTable *HashTable) get(key string) (int, bool) {
 	index := hashTable.hash(key)
 	for _, e := range hashTable.Table[index] {
 		if e.Key == key {
-			return e.Value
+			return e.Value, true
 		}
 	}
-	return -1
+	return -1, false
 }
 
 func TestChaining() {
 	table := HashTable{}
 	table.put(Entry{Key: "hoge", Value: 10})
 	table.put(Entry{Key: "egoh", Value: 1})
-	fmt.Printf("Value of hoge is %d\n", table.get("hoge"))
-	fmt.Printf("Value of egoh is %d\n", table.get("egoh"))
+	hoge, _ := table.get("hoge")
+	egoh, _ := table.get("egoh")
+	fmt.Printf("Value of hoge is %d\n", hoge)
+	fmt.Printf("Value of egoh is %d\n", egoh)
 }
