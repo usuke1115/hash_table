@@ -27,6 +27,12 @@ func (hashTable *SimpleHashTable) s_get(key string) int {
 	return hashTable.Table[index]
 }
 
+func (HashTable *SimpleHashTable) s_delete(key string) bool {
+	index := HashTable.s_hash(key)
+	HashTable.Table[index] = 0
+	return true
+}
+
 func TestSimpleHashTable() {
 	table := SimpleHashTable{}
 	table.s_put("hoge", 1)

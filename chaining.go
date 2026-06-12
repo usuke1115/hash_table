@@ -35,6 +35,18 @@ func (hashTable *HashTable) get(key string) (int, bool) {
 	return -1, false
 }
 
+func (hashTable *HashTable) delete(key string) {
+	index := hashTable.hash(key)
+	bucket := hashTable.Table[index]
+
+	for i, e := range bucket {
+		if e.Key == key {
+			hashTable.Table[index] = append(bucket[:i], bucket[i+1:]...)
+			return
+		}
+	}
+}
+
 func TestChaining() {
 	table := HashTable{}
 	table.put(Entry{Key: "hoge", Value: 10})
@@ -43,4 +55,6 @@ func TestChaining() {
 	egoh, _ := table.get("egoh")
 	fmt.Printf("Value of hoge is %d\n", hoge)
 	fmt.Printf("Value of egoh is %d\n", egoh)
+	table.delete("hoge")
+	fmt.Println(table.get("hoge"))
 }
